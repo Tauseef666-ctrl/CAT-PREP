@@ -308,6 +308,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const today = new Date().toISOString().slice(0, 10);
     setState((prev) => {
       const existing = prev.studyDays.find((d) => d.date === today);
+      const hadToday = !!existing && existing.completedMinutes > 0;
       const studyDays = existing
         ? prev.studyDays.map((d) =>
             d.date === today ? { ...d, completedMinutes: d.completedMinutes + minutes } : d
@@ -320,10 +321,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
               completedMinutes: minutes,
             },
           ];
-      // streak update
+      // streak update: +1 per active day, never per session
       const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
       const didYesterday = studyDays.some((d) => d.date === yesterday && d.completedMinutes > 0);
-      const current = (didYesterday ? prev.streak.current : 0) + 1;
+      const current = hadToday ? prev.streak.current : didYesterday ? prev.streak.current + 1 : 1;
       return {
         ...prev,
         studyDays,
@@ -377,6 +378,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         }
         // add study time
         const existing = prev.studyDays.find((d) => d.date === today);
+        const hadToday = !!existing && existing.completedMinutes > 0;
         const studyDays = existing
           ? prev.studyDays.map((d) =>
               d.date === today ? { ...d, completedMinutes: d.completedMinutes + session.durationMin } : d
@@ -387,7 +389,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
             ];
         const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
         const didYesterday = studyDays.some((d) => d.date === yesterday && d.completedMinutes > 0);
-        const current = (didYesterday ? prev.streak.current : 0) + 1;
+        const current = hadToday ? prev.streak.current : didYesterday ? prev.streak.current + 1 : 1;
         return {
           ...prev,
           sessions: [

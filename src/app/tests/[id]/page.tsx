@@ -56,7 +56,8 @@ export default function ExamPage() {
   const handleSubmit = () => {
     if (submitted) return;
     setSubmitted(true);
-    const attempt = buildTestAttempt(def, answers, (def.durationMin * 60 - timeLeft) || 60, startedRef.current);
+    const timeUsedSec = Math.max(1, def.durationMin * 60 - timeLeft);
+    const attempt = buildTestAttempt(def, answers, timeUsedSec, startedRef.current);
     recordTestAttempt(attempt);
     setDraftTest(null);
     router.push(`/tests/${def.id}/analysis?attempt=${attempt.attemptId}`);
@@ -140,7 +141,9 @@ export default function ExamPage() {
           <div className="grid grid-cols-8 gap-1.5">
             {def.questionIds.map((qid, i) => {
               const a = answers[qid];
-              const state = a === undefined || a === -1 ? "unanswered" : a === -2 ? "flagged" : "answered";
+              const state = a === undefined || a === -1
+                ? (flagged.includes(qid) ? "flagged" : "unanswered")
+                : "answered";
               const isCurrent = i === qIndex;
               return (
                 <button

@@ -44,6 +44,8 @@ export function QuestionRun({
   const [summary, setSummary] = useState<{ correct: number; wrong: number; skipped: number } | null>(null);
 
   const resultsRef = useRef<QuestionResult[]>([]);
+  const pushedRef = useRef<Set<string>>(new Set());
+  const submittedRef = useRef(false);
   const qStartRef = useRef<number>(Date.now());
   const sessionStartRef = useRef<number>(Date.now());
   const section = (questions[0]?.section ?? "qa") as SectionId;
@@ -66,15 +68,13 @@ export function QuestionRun({
   useEffect(() => {
     if (!timed || finished || !q) return;
     setTimeLeft(timerSec);
+    submittedRef.current = false;
     const id = setInterval(() => {
       setTimeLeft((t) => {
         if (t === null) return null;
         if (t <= 1) {
           clearInterval(id);
-          if (!answerSubmitted) {
-            setSelected(null);
-            setAnswerSubmitted(true);
-          }
+          if (!submittedRef.current) forceTimeout();
           return 0;
         }
         return t - 1;
@@ -85,6 +85,8 @@ export function QuestionRun({
   }, [index, timed, finished, timerSec]);
 
   const pushResult = (correct: boolean, yourAnswer: number | null) => {
+    if (pushedRef.current.has(q.id)) return; // never record a question twice
+    pushedRef.current.add(q.id);
     const elapsed = Math.round((Date.now() - qStartRef.current) / 1000);
     resultsRef.current.push({
       questionId: q.id,
@@ -115,13 +117,20 @@ export function QuestionRun({
   };
 
   const handleSubmit = () => {
-    if (answerSubmitted) return;
+    if (submittedRef.current) return;
+    submittedRef.current = true;
     const correct = selected !== null && selected === q.correctIndex;
     pushResult(correct, selected);
     setAnswerSubmitted(true);
   };
 
-  const handleTimeout = () => pushResult(false, null);
+  const forceTimeout = () => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
+    pushResult(false, null);
+    setSelected(null);
+    setAnswerSubmitted(true);
+  };
 
   const next = () => {
     if (index + 1 >= questions.length) {
@@ -333,7 +342,7 @@ export function QuestionRun({
         </button>
       )}
       {timed && !answerSubmitted && (
-        <button className="btn-ghost w-full" onClick={handleTimeout}>Submit anyway</button>
+        <button className="btn-ghost w-full" onClick={forceTimeout}>Submit anyway</button>
       )}
     </div>
   );

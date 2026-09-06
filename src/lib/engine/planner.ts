@@ -31,6 +31,41 @@ export interface DailyPlan {
   totalMinutes: number;
 }
 
+// Whether a plan item's underlying activity has actually been done in state.
+// Used to auto-check items on the Today plan as the user works through them.
+export function isPlanItemDone(state: AppState, item: PlanItem): boolean {
+  const today = todayKey();
+  switch (item.kind) {
+    case "learn":
+      return !!item.topicId && !!state.topicProgress[item.topicId]?.conceptLearned;
+    case "video":
+      return !!item.topicId && !!state.topicProgress[item.topicId]?.videoWatched;
+    case "practice":
+      return (
+        !!item.topicId &&
+        (!!state.topicProgress[item.topicId]?.practiced ||
+          state.questionResults.some((r) => r.topicId === item.topicId))
+      );
+    case "revision":
+      return !!item.topicId && state.topicProgress[item.topicId]?.lastRevisionAt === today;
+    case "mistake-rev":
+      return !state.mistakes.some((m) => m.retryStatus === "pending");
+    case "challenge":
+      return !!state.dailyChallenges[today]?.solved;
+    case "dilr-set":
+      return state.sessions.some(
+        (s) => s.date === today && s.type === "practice" && (!s.topicId || s.topicId.startsWith("dilr"))
+      );
+    case "rc":
+      return state.sessions.some((s) => s.date === today && s.type === "reading") ||
+        state.readingItems.some((r) => r.completed);
+    case "speed":
+      return state.sessions.some((s) => s.date === today && s.type === "practice");
+    default:
+      return false;
+  }
+}
+
 interface Candidate {
   topic: Topic;
   score: number;

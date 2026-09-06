@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/lib/store/AppProvider";
-import { buildDailyPlan } from "@/lib/engine/planner";
+import { buildDailyPlan, isPlanItemDone } from "@/lib/engine/planner";
 import { readinessIndex, sectionalReadiness } from "@/lib/engine/readiness";
 import {
   overallMetrics,
@@ -15,7 +15,7 @@ import {
 import { revisionStatus } from "@/lib/engine/revision";
 import { Card, Chip, ProgressBar, StatCard } from "@/components/ui";
 import { RadialGauge, MetricBar } from "@/components/charts";
-import { greeting, formatDuration } from "@/lib/utils";
+import { cn, greeting, formatDuration } from "@/lib/utils";
 import { SECTION_MAP } from "@/lib/content";
 
 export default function DashboardPage() {
@@ -91,21 +91,27 @@ export default function DashboardPage() {
             START TODAY'S PLAN
           </button>
           <div className="mt-4 grid sm:grid-cols-2 gap-2">
-            {plan.items.map((item, i) => (
-              <Link
-                key={i}
-                href={item.topicId ? `/learn/${item.section}/${item.topicId.split("-")[1]}/${item.topicId}` : "/today"}
-                className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700/60 p-3 hover:border-primary/40 transition"
-              >
-                <span className="text-xl">{planIcon[item.kind]}</span>
-                <div className="min-w-0">
-                  <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
-                    {item.durationMin} min — {item.title}
+            {plan.items.map((item, i) => {
+              const done = isPlanItemDone(state, item);
+              return (
+                <Link
+                  key={i}
+                  href={item.topicId ? `/learn/${item.section}/${item.topicId.split("-")[1]}/${item.topicId}` : "/today"}
+                  className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700/60 p-3 hover:border-primary/40 transition"
+                >
+                  <span className="text-xl">{planIcon[item.kind]}</span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className={cn("text-sm font-bold", done ? "text-emerald-500" : "text-slate-200 dark:text-slate-700")}>✓</span>
+                      <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
+                        {item.durationMin} min — {item.title}
+                      </span>
+                    </div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400 truncate">{item.reason}</div>
                   </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 truncate">{item.reason}</div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
             {plan.items.length === 0 && (
               <p className="text-sm text-slate-500 dark:text-slate-400 col-span-full">
                 Plan is empty — complete a quick mode session or practice to generate tomorrow's plan.

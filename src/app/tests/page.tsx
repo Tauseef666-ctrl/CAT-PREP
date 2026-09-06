@@ -80,8 +80,8 @@ function TestsContent() {
               <h3 className="font-bold text-slate-900 dark:text-slate-100">{p.spec.title}</h3>
             </div>
             <p className="text-xs text-slate-500 mt-1">{p.desc}</p>
-            <button className="btn-ghost mt-3 !py-2 text-sm" onClick={() => router.push(`/tests?topic=${p.spec.section ?? "qa"}`)}>
-              Go to topic test →
+            <button className="btn-ghost mt-3 !py-2 text-sm" onClick={() => router.push(`/learn?s=${p.spec.section ?? "qa"}`)}>
+              Pick a topic test →
             </button>
             <button className="btn-primary mt-2 !py-2 text-sm" onClick={() => startTest({ ...p.spec, questionCount: p.count, durationMin: p.minutes })}>
               Start  →

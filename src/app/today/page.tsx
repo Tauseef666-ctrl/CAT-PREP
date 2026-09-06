@@ -1,19 +1,81 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/lib/store/AppProvider";
-import { buildDailyPlan, type PlanItem } from "@/lib/engine/planner";
+import { buildDailyPlan, isPlanItemDone, type PlanItem } from "@/lib/engine/planner";
+import { todayKey } from "@/lib/engine/metrics";
 import { Card, Chip, ProgressBar } from "@/components/ui";
-import { formatDuration } from "@/lib/utils";
+import { cn, formatDuration, formatTime } from "@/lib/utils";
+
+const TODOS_KEY = "catcommand:todos:v1";
+
+function ItemTimer({ minutes, onDone }: { minutes: number; onDone: () => void }) {
+  const [left, setLeft] = useState<number | null>(null);
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    if (!active) return;
+    if (left !== null && left <= 0) {
+      setActive(false);
+      setLeft(null);
+      onDone();
+      return;
+    }
+    const id = setTimeout(() => setLeft((s) => (s ?? minutes * 60) - 1), 1000);
+    return () => clearTimeout(id);
+  }, [active, left]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (left === null) {
+    return (
+      <button className="btn-ghost !px-3 !py-1.5 text-xs" onClick={() => { setLeft(minutes * 60); setActive(true); }}>
+        ⏱ Timer {formatDuration(minutes)}
+      </button>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <span className={cn("text-xs font-bold px-2 py-1 rounded-md", left <= 15 ? "bg-red-100 text-red-600" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200")}>
+        {formatTime(left)}
+      </span>
+      <button className="btn-ghost !px-2 !py-1 text-xs" onClick={() => setActive((a) => !a)}>
+        {active ? "Pause" : "Resume"}
+      </button>
+      <button className="btn-ghost !px-2 !py-1 text-xs" onClick={() => { setActive(false); setLeft(null); }}>
+        ✕
+      </button>
+    </span>
+  );
+}
 
 export default function TodayPlanPage() {
-  const { state, recordSession, addStudyTime } = useStore();
+  const { state, recordSession } = useStore();
   const router = useRouter();
   const plan = buildDailyPlan(state, state.plan.dailyMinutes || 60);
-  const [done, setDone] = useState<Record<number, boolean>>({});
-  const [running, setRunning] = useState(-1);
+  const today = todayKey();
+
+  // Persistent manual overrides per day. Anything you actually do is auto-checked;
+  // manual marks survive navigation and are held in localStorage.
+  const [manual, setManual] = useState<Record<number, boolean>>(() => {
+    if (typeof window === "undefined") return {};
+    try {
+      const all = JSON.parse(localStorage.getItem(TODOS_KEY) ?? "{}");
+      return (all[today] as Record<number, boolean>) ?? {};
+    } catch {
+      return {};
+    }
+  });
+
+  useEffect(() => {
+    try {
+      const all = JSON.parse(localStorage.getItem(TODOS_KEY) ?? "{}");
+      all[today] = manual;
+      localStorage.setItem(TODOS_KEY, JSON.stringify(all));
+    } catch {
+      /* storage unavailable */
+    }
+  }, [manual, today]);
 
   const itemHref = (item: PlanItem) => {
     if (item.kind === "learn" || item.kind === "video" || item.kind === "revision") {
@@ -28,18 +90,20 @@ export default function TodayPlanPage() {
     return "/practice";
   };
 
-  const doneCount = Object.values(done).filter(Boolean).length;
+  const isDone = (i: number) => {
+    const item = plan.items[i];
+    return manual[i] !== undefined ? manual[i] : isPlanItemDone(state, item);
+  };
+
+  const doneCount = plan.items.filter((_, i) => isDone(i)).length;
   const pct = plan.items.length === 0 ? 0 : Math.round((doneCount / plan.items.length) * 100);
 
   const completeAll = () => {
     const total = plan.items.reduce((s, i) => s + i.durationMin, 0);
-    // record the whole session as a study session
-    const results = state.questionResults.slice(0, 0); // no new answers here
     recordSession(
       { type: "learn", durationMin: total || state.plan.dailyMinutes, itemsCompleted: plan.items.length },
       []
     );
-    addStudyTime(0);
     router.push("/dashboard");
   };
 
@@ -70,10 +134,9 @@ export default function TodayPlanPage() {
 
       <div className="space-y-3">
         {plan.items.map((item, i) => {
-          const isDone = !!done[i];
-          const isRunning = running === i;
+          const isChecked = isDone(i);
           return (
-            <Card key={i} className={isDone ? "opacity-60" : ""}>
+            <Card key={i} className={isChecked ? "opacity-60" : ""}>
               <div className="flex items-start gap-3">
                 <span className="text-2xl">
                   {item.kind === "learn" ? "📘" : item.kind === "video" ? "🎬" : item.kind === "practice" ? "✏️" : item.kind === "revision" ? "🔄" : item.kind === "dilr-set" ? "🧩" : item.kind === "rc" ? "📖" : item.kind === "speed" ? "⚡" : item.kind === "mistake-rev" ? "🧠" : "🎯"}
@@ -86,21 +149,16 @@ export default function TodayPlanPage() {
                     <Chip tone="neutral">{item.section.toUpperCase()}</Chip>
                   </div>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{item.reason}</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <div className="mt-3 flex flex-wrap gap-2 items-center">
                     <Link href={itemHref(item)} className="btn-primary !px-3 !py-1.5 text-xs">
-                      {isRunning ? "Resume →" : "Start →"}
+                      {isChecked ? "Revisit →" : "Start →"}
                     </Link>
+                    <ItemTimer minutes={item.durationMin} onDone={() => setManual((m) => ({ ...m, [i]: true }))} />
                     <button
-                      className="btn-ghost !px-3 !py-1.5 text-xs"
-                      onClick={() => setRunning(i)}
+                      className={`btn-ghost !px-3 !py-1.5 text-xs ${isChecked ? "!text-emerald-600 dark:!text-emerald-400" : ""}`}
+                      onClick={() => setManual((m) => ({ ...m, [i]: !m[i] }))}
                     >
-                      Timer {formatDuration(item.durationMin)}
-                    </button>
-                    <button
-                      className={`btn-ghost !px-3 !py-1.5 text-xs ${isDone ? "!text-emerald-600 dark:!text-emerald-400" : ""}`}
-                      onClick={() => setDone((d) => ({ ...d, [i]: !d[i] }))}
-                    >
-                      {isDone ? "✓ Marked done" : "Mark complete"}
+                      {isChecked ? "✓ Done" : "Mark complete"}
                     </button>
                   </div>
                 </div>
