@@ -6,8 +6,9 @@ import { useEffect, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { MOBILE_NAV, MORE_NAV_ITEMS, NAV_ITEMS } from "./nav";
 import { useStore } from "@/lib/store/AppProvider";
+import { Logo } from "@/components/brand/Logo";
 
-const SHELL_FREE = new Set(["/", "/onboarding"]);
+const SHELL_FREE = new Set(["/", "/onboarding", "/syllabus"]);
 
 function renderIcon(svg: string) {
   return <span dangerouslySetInnerHTML={{ __html: svg }} />;
@@ -39,13 +40,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       {/* Header */}
       <header className="sticky top-0 z-40 glass border-b border-slate-200/60 dark:border-slate-700/50">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 h-14">
-          <Link href="/dashboard" className="flex items-center gap-2 font-bold">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white text-base">
-              C
-            </span>
-            <span className="hidden sm:inline text-slate-900 dark:text-slate-100">
-              CAT <span className="text-primary">Command</span>
-            </span>
+          <Link href="/dashboard" aria-label="CAT Command dashboard">
+            <Logo wordmark size={24} />
           </Link>
           <div className="flex items-center gap-1">
             <div className="hidden md:flex items-center gap-0.5 text-xs">

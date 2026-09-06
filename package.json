@@ -2,7 +2,7 @@
   "name": "cat-command",
   "version": "0.1.0",
   "private": true,
-  "description": "CAT Command — Aditya's personalized CAT preparation platform",
+  "description": "CAT Command — Your Complete CAT Preparation System",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

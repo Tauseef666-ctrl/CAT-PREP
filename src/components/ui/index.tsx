@@ -45,7 +45,7 @@ export function Chip({
 }: {
   children: ReactNode;
   className?: string;
-  tone?: "neutral" | "primary" | "green" | "amber" | "red" | "blue";
+  tone?: "neutral" | "primary" | "green" | "amber" | "red" | "blue" | "teal";
 }) {
   const tones: Record<string, string> = {
     neutral:
@@ -55,6 +55,7 @@ export function Chip({
     amber: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
     red: "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300",
     blue: "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300",
+    teal: "bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-300",
   };
   return <span className={cn("chip", tones[tone], className)}>{children}</span>;
 }

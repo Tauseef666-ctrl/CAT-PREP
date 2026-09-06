@@ -75,7 +75,7 @@ export const QA_QUESTIONS: Question[] = [
     difficulty: 2,
     type: "mcq",
     prompt:
-      "After a 20% reduction in the price of notebooks, Aditya can buy 2 more notebooks for ₹120. What was the original price of one notebook?",
+      "After a 20% reduction in the price of notebooks, a student can buy 2 more notebooks for ₹120. What was the original price of one notebook?",
     options: ["₹10", "₹12", "₹15", "₹20"],
     correctIndex: 2,
     explanation:

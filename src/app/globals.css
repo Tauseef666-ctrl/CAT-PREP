@@ -9,7 +9,7 @@
   --surface-2: #f1f5f9;
   --border: #e2e8f0;
   --muted: #64748b;
-  --primary: 39 78 227;
+  --primary: 67 56 202;
 }
 
 .dark {
@@ -19,7 +19,7 @@
   --surface-2: #16203a;
   --border: #243048;
   --muted: #94a3b8;
-  --primary: 97 148 244;
+  --primary: 129 140 248;
 }
 
 html {
@@ -79,6 +79,15 @@ body {
 
   .section-title {
     @apply text-lg font-bold mb-3 flex items-center gap-2;
+  }
+
+  .boot-rise {
+    @apply animate-bootRise;
+    transform-origin: bottom center;
+  }
+
+  .animate-in {
+    @apply animate-fadeInUp;
   }
 }
 

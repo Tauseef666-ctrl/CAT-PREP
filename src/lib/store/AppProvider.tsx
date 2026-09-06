@@ -25,13 +25,13 @@ import { evaluateAchievements } from "../engine/achievements";
 
 const STORAGE_KEY = "catcommand:state:v1";
 
-export function defaultState(userName = "Aditya"): AppState {
+export function defaultState(userName = ""): AppState {
   const now = new Date().toISOString();
   return {
     profile: {
       name: userName,
-      course: "Diploma Mechanical Engineering (Production)",
-      board: "BTEUP",
+      course: "",
+      board: "",
       targetExamYear: new Date().getFullYear() + 1,
       createdOn: now,
       onboarded: false,
@@ -41,6 +41,8 @@ export function defaultState(userName = "Aditya"): AppState {
       daysPerWeek: [1, 2, 3, 4, 5, 6],
       targetExamYear: new Date().getFullYear() + 1,
       prepLevel: "beginner",
+      prepStyle: "balanced",
+      targetPercentile: undefined,
       focusMode: "balanced",
       strongSections: [],
       weakSections: [],
@@ -108,7 +110,14 @@ function loadState(): AppState {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultState();
     const parsed = JSON.parse(raw) as AppState;
-    return { ...defaultState(), ...parsed };
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      profile: { ...base.profile, ...parsed.profile },
+      plan: { ...base.plan, ...(parsed.plan ?? {}) },
+      bookmarks: { ...base.bookmarks, ...(parsed.bookmarks ?? {}) },
+    };
   } catch {
     return defaultState();
   }

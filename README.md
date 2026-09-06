@@ -1,14 +1,14 @@
-# CAT Command — Aditya's Personalized CAT Prep
+# CAT Command — Your Complete CAT Preparation System
 
-A personal CAT (Common Admission Test) preparation system, tailored around a 2nd-year Diploma (Mechanical/Production, BTEUP) student's schedule. Learn → Practice → Analyze → Revise → Test.
+A universal, production-quality CAT (Common Admission Test) preparation platform for any aspirant — regardless of college, degree, background, preparation level, target percentile, age, location or daily study time. Learn → Practice → Analyze → Revise → Test.
 
-> **Personal & non-commercial.** Built for one candidate. All progress lives in the browser (localStorage), nothing is uploaded.
+> **Independent & non-commercial.** Not affiliated with the IIMs. All progress lives in the browser (localStorage); nothing is uploaded.
 
 ## The Core Idea
 
 Most CAT apps give you content and a vague "study X hours." CAT Command instead answers one question: **"Tell me what to do next."**
 
-Every screen reads your recorded state (topics completed, practice accuracy, mistake history, revision due dates, test bands) and generates a concrete next action with a time estimate you can actually fit into a college + Diploma day.
+Every screen reads your recorded state (topics completed, practice accuracy, mistake history, revision due dates, test bands) and generates a concrete next action with a time estimate you can actually fit into any college, work or study schedule.
 
 ## Stack
 
@@ -95,4 +95,4 @@ Ready for GitHub → Vercel. Creates a clean static/dynamic Next deployment.
 
 ---
 
-*Made for Aditya. Keep the streak alive — the planner is always watching.* 🔥
+*Designed for every aspirant. Keep the streak alive — the planner is always watching.* 🔥

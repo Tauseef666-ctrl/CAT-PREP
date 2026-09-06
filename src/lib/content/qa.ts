@@ -40,7 +40,7 @@ const arithmetic = makeChapter("qa-arithmetic", "qa", "Arithmetic", 1, [
       {
         title: "Finding percentage of a quantity",
         level: "Easy",
-        question: "In an exam, Aditya scored 132 marks out of 200. What percentage did he score?",
+        question: "In an exam, a candidate scored 132 marks out of 200. What percentage did he score?",
         solution: [
           "Percentage = (Part / Whole) × 100 = (132/200) × 100.",
           "132/200 = 66/100.",
@@ -202,7 +202,7 @@ const arithmetic = makeChapter("qa-arithmetic", "qa", "Arithmetic", 1, [
       {
         title: "Basic profit",
         level: "Beginner",
-        question: "Aditya buys a notebook for ₹50 and sells it for ₹62. Find profit%.",
+        question: "A student buys a notebook for ₹50 and sells it for ₹62. Find profit%.",
         solution: [
           "Profit = 62 − 50 = 12.",
           "Profit% = (12/50) × 100 = 24%.",

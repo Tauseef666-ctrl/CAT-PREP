@@ -176,12 +176,14 @@ export interface StudyPlan {
   dailyMinutes: number;
   daysPerWeek: number[];
   targetExamYear: number;
-  prepLevel: "beginner" | "intermediate" | "advanced";
+  prepLevel: "beginner" | "intermediate" | "advanced" | "repeater" | "returning";
+  prepStyle: "self-study" | "coaching" | "video-first" | "practice-first" | "balanced";
+  targetPercentile?: number;
   focusMode: "concept" | "practice" | "balanced";
   strongSections: SectionId[];
   weakSections: SectionId[];
   language: "english" | "hinglish" | "hindi";
-  diplomaLoad: 1 | 2 | 3; // 1 low ... 3 high
+  diplomaLoad: 1 | 2 | 3; // 1 low ... 3 high (college/work schedule load)
   holidays: string[];
   weakTopics: string[];
   strongTopics: string[];

@@ -158,21 +158,34 @@ export default function TopicPage() {
           {status === "completed" ? "completed" : status === "in-progress" ? "in progress" : "not started"}
         </p>
         {t.prerequisites.length > 0 && (
-          <p className="text-xs text-slate-500 mt-2">
-            <span className="font-semibold">Prerequisites:</span>{" "}
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold text-slate-500">Prerequisites:</span>
             {t.prerequisites.map((id) => {
               const ptop = TOPIC_MAP[id];
+              const pState = state.topicProgress[id];
+              const done = pState?.status === "completed" || pState?.conceptLearned;
+              const started = pState && pState.status !== "not-started";
               return (
                 <Link
                   key={id}
                   href={`/learn/${ptop.section}/${ptop.chapterId.split("-")[1]}/${id}`}
-                  className="text-primary hover:underline ml-1"
+                  className={cn(
+                    "chip border transition hover:border-primary/50",
+                    done
+                      ? "bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-900/20 dark:border-emerald-700/50 dark:text-emerald-300"
+                      : started
+                        ? "bg-amber-50 border-amber-200 text-amber-700 dark:bg-amber-900/20 dark:border-amber-700/50 dark:text-amber-300"
+                        : "bg-slate-100 border-slate-200 text-slate-600 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300"
+                  )}
                 >
-                  {ptop.title}
+                  {done ? "✓" : started ? "▶" : "○"} {ptop.title}
                 </Link>
               );
             })}
-          </p>
+            {t.prerequisites.some((id) => !state.topicProgress[id] || state.topicProgress[id]?.status === "not-started") && (
+              <Chip tone="amber">Recommended: finish prerequisites first — but you're never blocked from trying</Chip>
+            )}
+          </div>
         )}
       </div>
 

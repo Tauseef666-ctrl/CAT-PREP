@@ -57,6 +57,11 @@ export const NAV_ITEMS: NavItem[] = [
     icon: (a) => svg('<path d="M3 3v18h18"/><path d="M7 14l4-5 4 3 5-6"/>', a),
   },
   {
+    href: "/report",
+    label: "Weekly Report",
+    icon: (a) => svg('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v5M15 3v5M9 14h6m-6 4h4"/>', a),
+  },
+  {
     href: "/resources",
     label: "Resources",
     icon: (a) => svg('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>', a),
@@ -86,8 +91,9 @@ export const MORE_NAV_ITEMS: NavItem[] = [
   NAV_ITEMS[5], // Revision
   NAV_ITEMS[6], // Planner
   NAV_ITEMS[7], // Analytics
-  NAV_ITEMS[8], // Resources
-  NAV_ITEMS[9], // Profile
+  NAV_ITEMS[8], // Weekly Report
+  NAV_ITEMS[9], // Resources
+  NAV_ITEMS[10], // Profile
   {
     href: "/quick",
     label: "Quick mode",

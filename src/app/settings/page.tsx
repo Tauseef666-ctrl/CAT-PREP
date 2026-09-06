@@ -64,7 +64,7 @@ export default function SettingsPage() {
       <Card>
         <h2 className="font-bold text-slate-900 dark:text-slate-100 mb-3">About</h2>
         <p className="text-sm text-slate-600 dark:text-slate-300">
-          CAT Command — a personal CAT preparation planner for Aditya. v0.1 · personal & non-commercial.
+          CAT Command — a complete CAT preparation system for every aspirant. v1.0 · non-commercial.
           Built on Next.js with honest, integrity-checked content.
         </p>
         <Link href="/" className="link text-sm inline-block mt-2">Landing page →</Link>

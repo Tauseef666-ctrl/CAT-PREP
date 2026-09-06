@@ -20,10 +20,13 @@ export default function ProfilePage() {
           {state.profile.name[0]?.toUpperCase() ?? "A"}
         </div>
         <h1 className="mt-3 text-xl font-extrabold text-slate-900 dark:text-slate-100">{state.profile.name}</h1>
-        <p className="text-sm text-slate-500">{state.profile.course} · {state.profile.board}</p>
+        <p className="text-sm text-slate-500">
+          {[state.profile.course, state.profile.board].filter(Boolean).join(" · ") || "CAT Aspirant"}
+        </p>
         <div className="mt-3 flex justify-center gap-2 flex-wrap">
           <Chip tone="blue">CAT {state.plan.targetExamYear}</Chip>
-          <Chip tone="neutral">{state.plan.prepLevel} level</Chip>
+          <Chip tone="neutral">{state.plan.prepLevel.split("-").map((w) => w[0]?.toUpperCase() + w.slice(1)).join(" ")}</Chip>
+          {state.plan.targetPercentile != null && <Chip tone="teal">{state.plan.targetPercentile >= 99.5 ? "99.5+ target" : `${state.plan.targetPercentile}+ target`}</Chip>}
           <Chip tone="neutral">{all.xp} XP</Chip>
         </div>
         <Link href="/settings" className="btn-ghost mt-4 !py-2 text-sm">Edit plan & settings →</Link>
@@ -33,10 +36,10 @@ export default function ProfilePage() {
         <h2 className="font-bold text-slate-900 dark:text-slate-100 mb-2">Study plan</h2>
         <div className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
           <p>⏰ <b>{state.plan.dailyMinutes} min/day</b> · {state.plan.daysPerWeek.length} days/week</p>
-          <p>🎯 Focus: <b>{state.plan.focusMode}</b> · Language: <b>{state.plan.language}</b></p>
+          <p>🎯 {state.plan.focusMode} · Language: <b>{state.plan.language}</b> · Style: <b>{state.plan.prepStyle}</b></p>
           <p>💪 Strong: {state.plan.strongSections.map((s) => s.toUpperCase()).join(", ") || "—"}</p>
           <p>🎗 Weak: {state.plan.weakSections.map((s) => s.toUpperCase()).join(", ") || "none flagged"}</p>
-          <p>📚 Study load (diploma): level {state.plan.diplomaLoad}/3</p>
+          <p>📚 Study load (college/work): level {state.plan.diplomaLoad}/3</p>
         </div>
       </Card>
 

@@ -4,20 +4,32 @@ import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { AppProvider } from "@/lib/store/AppProvider";
 import { AppShell } from "@/components/layout/AppShell";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
+import { BootSplash } from "@/components/brand/BootSplash";
 
 export const metadata: Metadata = {
   title: {
-    default: "CAT Command — Aditya's Personalized CAT Prep",
+    default: "CAT Command — Your Complete CAT Preparation System",
     template: "%s · CAT Command",
   },
   description:
-    "CAT Command is Aditya's personal CAT preparation system — learn concepts, practice, revise, take tests and let the intelligent planner tell you exactly what to do next.",
-  keywords: ["CAT 2026", "CAT preparation", "CAT planning", "MBA", "Quantitative Aptitude", "VARC", "DILR", "Aditya"],
+    "Your complete CAT preparation system — learn concepts, watch curated lectures, practice questions, solve PYQs, take mocks, analyze mistakes and build your preparation plan, all in one place.",
+  keywords: [
+    "CAT 2026",
+    "CAT preparation",
+    "CAT syllabus",
+    "CAT mock tests",
+    "CAT practice questions",
+    "Quantitative Aptitude",
+    "VARC",
+    "DILR",
+    "MBA entrance",
+    "CAT planner",
+  ],
   authors: [{ name: "CAT Command" }],
   openGraph: {
-    title: "CAT Command — Aditya's Personalized CAT Prep",
+    title: "CAT Command — Your Complete CAT Preparation System",
     description:
-      "Learn → Practice → Analyze → Revise → Test. Your personal CAT preparation system designed around college and Diploma study time.",
+      "Learn → Practice → Analyze → Revise → Test. Everything a CAT aspirant needs, in one place.",
     type: "website",
   },
 };
@@ -50,6 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <AppShell>{children}</AppShell>
           </AppProvider>
         </ThemeProvider>
+        <BootSplash />
         <ServiceWorkerRegister />
       </body>
     </html>

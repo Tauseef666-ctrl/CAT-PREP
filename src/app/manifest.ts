@@ -2,16 +2,16 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "CAT Command — Aditya's Personalized CAT Prep",
+    name: "CAT Command — Your Complete CAT Preparation System",
     short_name: "CAT Command",
     description:
-      "Learn → Practice → Analyze → Revise → Test. Your personal CAT preparation system designed around college and Diploma study time.",
+      "Learn concepts, watch curated lectures, practice, solve PYQs, take mocks, analyze mistakes and build your preparation plan — all in one place.",
     start_url: "/",
     scope: "/",
     display: "standalone",
     orientation: "portrait",
     background_color: "#f8fafc",
-    theme_color: "#274ee3",
+    theme_color: "#4f46e5",
     categories: ["education", "productivity"],
     icons: [
       {

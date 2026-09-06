@@ -1,4 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#274ee3"/>
-  <text x="256" y="344" font-family="Arial, sans-serif" font-size="300" font-weight="800" text-anchor="middle" fill="#ffffff">C</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 48 48">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4338ca"/>
+      <stop offset="0.55" stop-color="#274ee3"/>
+      <stop offset="1" stop-color="#0d9488"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="12" fill="#0b1220"/>
+  <rect x="1" y="1" width="46" height="46" rx="12" fill="url(#g)"/>
+  <g fill="#ffffff">
+    <rect x="7" y="35" width="34" height="5" rx="2.5"/>
+    <rect x="9" y="28" width="6.5" height="7" rx="2"/>
+    <rect x="20" y="22.5" width="6.5" height="12.5" rx="2"/>
+    <rect x="31.5" y="16" width="6.5" height="19" rx="2"/>
+    <path d="M34.75 7.5 L30.75 15 L38.75 15 Z"/>
+  </g>
 </svg>
