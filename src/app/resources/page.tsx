@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { RESOURCES } from "@/lib/content";
+import { RESOURCES, CAT_PAST_PAPERS } from "@/lib/content";
 import { Card, Chip, EmptyState } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
@@ -48,6 +48,33 @@ export default function ResourcesPage() {
           ))}
         </div>
       )}
+
+      <div>
+        <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">Previous-Year CAT Papers</h2>
+        <p className="text-sm text-slate-500 mt-1">
+          Official/memory-based past papers we verified live — every link serves a real PDF.
+        </p>
+      </div>
+      <div className="space-y-3">
+        {CAT_PAST_PAPERS.map((r) => (
+          <Card key={r.id} className="!p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="font-bold text-slate-900 dark:text-slate-100">{r.name}</div>
+                <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                  <Chip tone="neutral">{r.category}</Chip>
+                  <Chip tone="green">Free</Chip>
+                  <Chip tone="green">✓ verified PDF</Chip>
+                </div>
+                <p className="text-xs text-slate-500 mt-1.5">{r.note}</p>
+              </div>
+              <a href={r.url} target="_blank" rel="noopener noreferrer" className="btn-ghost !py-1.5 text-xs shrink-0">
+                PDF ↗
+              </a>
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

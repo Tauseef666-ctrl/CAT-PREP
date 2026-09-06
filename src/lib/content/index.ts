@@ -6,6 +6,7 @@ import { QUESTION_BANK, QA_QUESTIONS, VARC_QUESTIONS, DILR_QUESTIONS } from "./q
 import { VIDEOS } from "./videos";
 import { FORMULAS } from "./formulas";
 import { RESOURCES, RC_PASSAGES, DILR_SETS, READING_ITEMS, SEED_NOTES } from "./resources";
+import { CAT_PAST_PAPERS } from "./papers";
 import { SECTIONS, SECTION_LIST } from "./sections";
 
 export const CHAPTERS: Chapter[] = [...QA_CHAPTERS, ...VARC_CHAPTERS, ...DILR_CHAPTERS];
@@ -37,6 +38,7 @@ export {
   DILR_SETS,
   READING_ITEMS,
   SEED_NOTES,
+  CAT_PAST_PAPERS,
   SECTIONS,
   SECTION_LIST,
 };

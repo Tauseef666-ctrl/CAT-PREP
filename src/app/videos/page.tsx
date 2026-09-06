@@ -46,6 +46,14 @@ export default function VideosPage() {
                       target="_blank" rel="noopener noreferrer"
                       className="text-sm font-semibold text-slate-800 dark:text-slate-100 hover:text-primary truncate block"
                     >
+                      {v.youtubeId && (
+                        <img
+                          src={`https://i.ytimg.com/vi/${v.youtubeId}/mqdefault.jpg`}
+                          alt=""
+                          loading="lazy"
+                          className="rounded-lg float-left mr-3 mb-1 h-[4.5rem] w-20 object-cover"
+                        />
+                      )}
                       ▶️ {v.title}
                     </a>
                     <div className="text-xs text-slate-500 mt-1">

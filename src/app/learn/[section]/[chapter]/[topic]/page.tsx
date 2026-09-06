@@ -347,7 +347,7 @@ export default function TopicPage() {
             </a>
           ))}
           <a
-            href="https://www.youtube.com/results?search_query=CAT+preparation+percentages+aptitude"
+            href={`https://www.youtube.com/results?search_query=${encodeURIComponent(t.title + " CAT preparation")}`}
             target="_blank" rel="noopener noreferrer"
             className="flex items-center gap-3 rounded-xl border border-dashed border-slate-300 dark:border-slate-600 p-3 hover:border-primary/40"
           >
