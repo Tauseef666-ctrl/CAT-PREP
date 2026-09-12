@@ -67,7 +67,7 @@ export default function DashboardPage() {
       {/* Greeting */}
       <div>
         <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-slate-100">
-          {greeting()}, {state.profile.name.split(" ")[0]}
+          {greeting()}, Aspirant
         </h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">
           {state.plan.dailyMinutes} min available today · {state.plan.daysPerWeek.length} days/week planned

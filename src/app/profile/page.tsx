@@ -16,10 +16,8 @@ export default function ProfilePage() {
   return (
     <div className="space-y-5">
       <Card className="!p-6 text-center">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-3xl font-extrabold text-primary">
-          {state.profile.name[0]?.toUpperCase() ?? "A"}
-        </div>
-        <h1 className="mt-3 text-xl font-extrabold text-slate-900 dark:text-slate-100">{state.profile.name}</h1>
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-3xl font-extrabold text-primary">A</div>
+        <h1 className="mt-3 text-xl font-extrabold text-slate-900 dark:text-slate-100">CAT Aspirant</h1>
         <p className="text-sm text-slate-500">
           {[state.profile.course, state.profile.board].filter(Boolean).join(" · ") || "CAT Aspirant"}
         </p>
@@ -68,7 +66,7 @@ export default function ProfilePage() {
 
       <Card>
         <h2 className="font-bold text-slate-900 dark:text-slate-100 mb-2">Danger zone</h2>
-        <p className="text-xs text-slate-500 mb-3">Resets all recorded progress, plan and streaks. Keeps your name.</p>
+        <p className="text-xs text-slate-500 mb-3">Resets all recorded progress, plan and streaks. Keeps your profile and plan settings.</p>
         <button
           className="btn-ghost !py-2 text-sm !border-red-300 !text-red-500"
           onClick={() => { if (confirm("Reset ALL progress? This cannot be undone.")) resetAll(); }}

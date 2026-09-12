@@ -40,7 +40,6 @@ export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
 
-  const [name, setName] = useState(state.profile.name || "");
   const [course, setCourse] = useState(state.profile.course || "");
   const [board, setBoard] = useState(state.profile.board || "");
   const [targetYear, setTargetYear] = useState(new Date().getFullYear() + 1);
@@ -86,7 +85,7 @@ export default function OnboardingPage() {
       strongTopics: [],
     };
     onBoard(
-      { name: name.trim() || "CAT Aspirant", course: course.trim(), board: board.trim(), targetExamYear: targetYear },
+      { name: "CAT Aspirant", course: course.trim(), board: board.trim(), targetExamYear: targetYear },
       plan
     );
     router.push("/dashboard");
@@ -152,12 +151,10 @@ export default function OnboardingPage() {
         <div className="card p-6 animate-in">
           <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100">About you</h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            This personalizes your dashboard and your plan. Nothing is assumed — the system only
-            uses what you tell it.
+            Tell us about your background so the plan fits you. Nothing is assumed — the
+            system only uses what you tell it.
           </p>
-          <label className="label mt-5">Your name <span className="text-slate-400 font-normal">(optional)</span></label>
-          <input className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Aarav Sharma" />
-          <div className="grid grid-cols-2 gap-3 mt-4">
+          <div className="grid grid-cols-2 gap-3 mt-5">
             <div>
               <label className="label">Course / College <span className="text-slate-400 font-normal">(optional)</span></label>
               <input className="input" value={course} onChange={(e) => setCourse(e.target.value)} placeholder="e.g. B.Com, Engineering…" />
